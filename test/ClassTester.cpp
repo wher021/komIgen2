@@ -4,6 +4,8 @@
 
 #include "turtle.h"
 #include "painter.h"
+#include "ISocket.h"
+#include "Socket.h"
 
 class MockTurtle : public Turtle {
  public:
@@ -15,25 +17,39 @@ class MockTurtle : public Turtle {
   MOCK_METHOD2(GoTo, void(int x, int y));
   MOCK_CONST_METHOD0(GetX, int());
   MOCK_CONST_METHOD0(GetY, int());
+  MOCK_METHOD0(solong, void());
+};
+
+class MockSocket : public ISocket
+{
+public:
+	  MOCK_METHOD1(createSocket, int(int arg));
 };
 
 
-class ClassTester: public ::testing::Test
+class SocketTester: public ::testing::Test
 {
 	protected:
 	MyClass m;
 
 };
 
-TEST_F(ClassTester, Test1)
+TEST_F(SocketTester, Test1)
 {
-	ASSERT_TRUE(true);
+	MockSocket mocksocket;
+
+	int myvar = 3;
+
+	Socket socket(&mocksocket);
+
+	EXPECT_CALL(mocksocket, createSocket(2))
+        .Times(1).WillRepeatedly(testing::Return(44));
+
+	int shit = socket.init();
+	ASSERT_EQ(0,shit);
+
 }
 
-TEST_F(ClassTester, Test2)
-{
-	ASSERT_EQ(m.getZero(), 0);
-}
 
 using ::testing::AtLeast;
 TEST(PainterTest, CanDrawSomething)
@@ -42,9 +58,10 @@ TEST(PainterTest, CanDrawSomething)
   //EXPECT_CALL(turtle, PenDown())
     //  .Times(AtLeast(1));
   EXPECT_CALL(turtle, PenDown())
-        .Times(4);
+        .Times(1);
 
   Painter painter(&turtle);
 
   EXPECT_TRUE(painter.DrawCircle(0, 0, 10));
 }
+

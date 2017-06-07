@@ -8,31 +8,38 @@
 #ifndef SRC_SOCKET_H_
 #define SRC_SOCKET_H_
 
+#include <winsock2.h>
 
 class Socket : public ISocket
 {
 public:
 	Socket();
-	Socket(ISocket *tst)
+	Socket(ISocket *a_isocket)
 	{
-		isocket = tst;
+		m_isocket = a_isocket;
 	}
-	int init()//(ISocket *tst)
-	{
-		int mynr = isocket->createSocket(2);
-		return mynr;
-	};
-	void init(ISocket *shit)
+	virtual int connect(char *buffer)
 	{
 
 	}
-	int createSocket(int arg)
+	virtual int* sort(int *array)
 	{
-		printf("Hi");
-		return 0;
+		array[0]=99;
+		array[1]=95;
+		return array;
 	}
+	virtual void hej(int h)
+	{
+	}
+	virtual int puto(int *regular)
+	{
+		return 0;
+
+
+	}
+
 private:
-	ISocket *isocket;
+	ISocket *m_isocket;
 };
 
 

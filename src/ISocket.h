@@ -11,7 +11,10 @@
 class ISocket
 {
 public:
-	virtual int createSocket(int arg) = 0;
+	virtual int connect(char *buffer) = 0;
+	virtual int* sort(int *array) = 0;
+	virtual void  hej(int h) = 0;
+	virtual int puto(int *regular) = 0;
 };
 
 
